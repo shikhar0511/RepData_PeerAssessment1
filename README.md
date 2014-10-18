@@ -1,4 +1,4 @@
-## Introduction
+X <- data.frame("var1"=sample(1:5),"var2"=sample(6:10),"var3"=sample(11:15))## Introduction
 
 It is now possible to collect a large amount of data about personal
 movement using activity monitoring devices such as a

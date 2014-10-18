@@ -24,7 +24,8 @@ The dataset is stored in a comma-separated-value (CSV) file and there are a tota
 
 ## Assignment
 
-```{r Import_Package ,echo=TRUE}
+
+```r
 #If you dont have the following libraries then kindly install them before 
     library(seqinr)
     library(data.table)
@@ -36,9 +37,17 @@ Show any code that is needed to
 1) Load the data (i.e. read.csv())
 2) Process/transform the data (if necessary) into a format suitable for your analysis
     
-```{r,echo=TRUE,results='hide'}
+
+```r
 # Download the zip file in your working directory and unzip it in R by this code. 
 unzip("repdata_data_activity.zip", exdir=".")
+```
+
+```
+## Warning: error 1 in extracting from zip file
+```
+
+```r
 #Load the data (i.e. read.csv())
 #Process/transform the data (if necessary) into a format suitable for the analysis
 data <- read.csv("activity.csv",header=TRUE,sep=",",na.strings="NA")
@@ -51,7 +60,8 @@ For this part of the assignment, you can ignore the missing values in the datase
     
 1) Calculate and report the mean and median total number of steps taken per day
 
-```{r,echo=TRUE,results="hide"}
+
+```r
 #Calculating Sum of all steps taken day wise 
 factored_data <- transform(new_data,date=factor(date))
 split_data <- split(new_data,new_data$date)
@@ -61,17 +71,29 @@ mean <- mean(total_steps)
 median <- median(total_steps)
 ```
 
-The mean of total number of steps taken per day is: `r mean`
-Median of total number of steps taken per day is : `r median`
+The mean of total number of steps taken per day is: 9354.2295
+Median of total number of steps taken per day is : 10395
 
 2) Make a histogram of the total number of steps taken each day
 
 The histogram of total number of steps taken each day is:
 
-```{r total_steps_na_data , echo=TRUE}
+
+```r
 #Make a histogram of the total number of steps taken each day
 hist_plot <- histogram(total_steps,type=c("count"),col=2,xlab="Total Steps",main="Total Number Of Steps Each Day")
+```
+
+```
+## Error: could not find function "histogram"
+```
+
+```r
 hist_plot
+```
+
+```
+## Error: object 'hist_plot' not found
 ```
 
 
@@ -82,7 +104,8 @@ hist_plot
     
 The plot of  5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis) is:
 
-```{r average_step_interval,echo=TRUE}
+
+```r
 par(bg="white")
 factored_data <- transform(new_data,interval=factor(interval))
 split_data <- split(new_data,new_data$interval)
@@ -90,16 +113,18 @@ average_data <- sapply(split_data,function(x) mean(x[,"steps"]))
 plot(unlist(average_data),type="l",ylab="Average Steps",xlab="Intervals")
 grid(lwd=3)
 title("Average Steps Across Days In The Intervals")
-
 ```
+
+![plot of chunk average_step_interval](figure/average_step_interval.png) 
 
 2) Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
-```{r,echo=TRUE}
+
+```r
 max_step_interval=which.max(average_data)
 ```
 
-The 5-minute interval, on average across all the days in the dataset containing the maximum number of steps is : `r max_step_interval`
+The 5-minute interval, on average across all the days in the dataset containing the maximum number of steps is : 104
 
 ### Imputing missing values
 
@@ -107,52 +132,77 @@ Note that there are a number of days/intervals where there are missing values (c
 
 1) Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
 
-```{r,echo=TRUE,results="hide"}
-num_NA <- dim(data[is.na(data),])[1]
 
+```r
+num_NA <- dim(data[is.na(data),])[1]
 ```
 
-The total number of missing values in the dataset are : `r num_NA`
+The total number of missing values in the dataset are : 2304
 
 2) Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
 
-```{r,echo=TRUE,results="hide"}
+
+```r
 a <- apply(data[is.na(data),],1,function(x) average_data[trimSpace(toString(x["interval"]),leading=TRUE,space=" ")])
 ```
 
 3) Create a new dataset that is equal to the original dataset but with the missing data filled in.
 
 New Data Set:
-```{r showtable, echo=TRUE}
+
+```r
     data[is.na(data),][,1] <- a
     print(head(data),type="html")
+```
+
+```
+##     steps       date interval
+## 1 1.71698 2012-10-01        0
+## 2 0.33962 2012-10-01        5
+## 3 0.13208 2012-10-01       10
+## 4 0.15094 2012-10-01       15
+## 5 0.07547 2012-10-01       20
+## 6 2.09434 2012-10-01       25
 ```
 
 4) Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
 
 The new histogram replacing the NA values in the old data is:
 
-```{r histogram_total_step_nona_data, echo=TRUE}
+
+```r
 #Calculating Sum of all steps taken day wise 
 factored_data <- transform(data,date=factor(date))
 split_data <- split(data,data$date)
 total_steps <- sapply(split_data,function(x) sum(x[,"steps"]))
 #Make a histogram of the total number of steps taken each day
 hist_plot <- histogram(total_steps,type=c("count"),col=2,xlab="Total Steps",main="Total Number Of Steps Each Day")
+```
+
+```
+## Error: could not find function "histogram"
+```
+
+```r
 hist_plot
 ```
 
-```{r,echo=TRUE}
+```
+## Error: object 'hist_plot' not found
+```
+
+
+```r
 #Calculate and report the mean and median total number of steps taken per day
 new_mean <- mean(total_steps)
 new_median <- median(total_steps)
 ```
 
-New mean: `r new_mean`
-Old mean: `r mean`
+New mean: 1.0766 &times; 10<sup>4</sup>
+Old mean: 9354.2295
 
-New median:`r new_median`
-Old median:`r median`
+New median:1.0766 &times; 10<sup>4</sup>
+Old median:10395
 
 Both the new mean and new median are higher then the old mean and old median 
 
@@ -162,20 +212,51 @@ For this part the weekdays() function may be of some help here. Use the dataset 
 
 1) Create a new factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.
 
-```{r,echo=TRUE,result="hide"}
+
+```r
 data <- data.table(data,keep.rownames=TRUE)
 w<-sapply(data$date,function(x) if(isWeekday(as.POSIXct(x))==TRUE){"Weekday"}else{"Weekend"})
 data[,Weekday_or_not:=w]
 ```
 
+```
+##           rn   steps       date interval Weekday_or_not
+##     1:     1 1.71698 2012-10-01        0        Weekend
+##     2:     2 0.33962 2012-10-01        5        Weekend
+##     3:     3 0.13208 2012-10-01       10        Weekend
+##     4:     4 0.15094 2012-10-01       15        Weekend
+##     5:     5 0.07547 2012-10-01       20        Weekend
+##    ---                                                 
+## 17564: 17564 4.69811 2012-11-30     2335        Weekday
+## 17565: 17565 3.30189 2012-11-30     2340        Weekday
+## 17566: 17566 0.64151 2012-11-30     2345        Weekday
+## 17567: 17567 0.22642 2012-11-30     2350        Weekday
+## 17568: 17568 1.07547 2012-11-30     2355        Weekday
+```
+
 2) Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). 
 
-```{r Weekday_Weeked_Plot,echo=TRUE,result="hide"}
+
+```r
 data <- transform(data,Weekday_or_not=factor(data$Weekday_or_not))
 factored_data <- transform(data,interval=factor(interval))
 split_data <- split(data,data$Weekday_or_not)
 split_data_weekday_interval <- split(split_data[[1]],data$interval)
+```
+
+```
+## Warning: data length is not a multiple of split variable
+```
+
+```r
 split_data_weekend_interval <- split(split_data[[2]],data$interval)
+```
+
+```
+## Warning: data length is not a multiple of split variable
+```
+
+```r
 average_data_weekday <- sapply(split_data_weekday_interval,function(x) mean(x[,steps]))
 average_data_weekend <- sapply(split_data_weekend_interval,function(x) mean(x[,steps]))
 par(mfrow=c(2,1))
@@ -185,6 +266,8 @@ grid(lwd=3)
 plot(unlist(average_data_weekend),type="l",ylab="Average Number Of Steps",xlab="Intervals",main="Weekends")
 grid(lwd=3)
 ```
+
+![plot of chunk Weekday_Weeked_Plot](figure/Weekday_Weeked_Plot.png) 
 
 
 
