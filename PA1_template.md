@@ -28,6 +28,7 @@ The dataset is stored in a comma-separated-value (CSV) file and there are a tota
 ```r
 #If you dont have the following libraries then kindly install them before 
     library(seqinr)
+    library(lattice)
     library(data.table)
     library(timeDate)
     library(knitr)
@@ -83,19 +84,10 @@ The histogram of total number of steps taken each day is:
 ```r
 #Make a histogram of the total number of steps taken each day
 hist_plot <- histogram(total_steps,type=c("count"),col=2,xlab="Total Steps",main="Total Number Of Steps Each Day")
-```
-
-```
-## Error: could not find function "histogram"
-```
-
-```r
 hist_plot
 ```
 
-```
-## Error: object 'hist_plot' not found
-```
+![plot of chunk total_steps_na_data ](figure/total_steps_na_data .png) 
 
 
 
@@ -178,19 +170,10 @@ split_data <- split(data,data$date)
 total_steps <- sapply(split_data,function(x) sum(x[,"steps"]))
 #Make a histogram of the total number of steps taken each day
 hist_plot <- histogram(total_steps,type=c("count"),col=2,xlab="Total Steps",main="Total Number Of Steps Each Day")
-```
-
-```
-## Error: could not find function "histogram"
-```
-
-```r
 hist_plot
 ```
 
-```
-## Error: object 'hist_plot' not found
-```
+![plot of chunk histogram_total_step_nona_data](figure/histogram_total_step_nona_data.png) 
 
 
 ```r

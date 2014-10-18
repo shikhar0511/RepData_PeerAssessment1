@@ -27,6 +27,7 @@ The dataset is stored in a comma-separated-value (CSV) file and there are a tota
 ```{r Import_Package ,echo=TRUE}
 #If you dont have the following libraries then kindly install them before 
     library(seqinr)
+    library(lattice)
     library(data.table)
     library(timeDate)
     library(knitr)
