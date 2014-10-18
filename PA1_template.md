@@ -30,6 +30,7 @@ The dataset is stored in a comma-separated-value (CSV) file and there are a tota
     library(seqinr)
     library(data.table)
     library(timeDate)
+    library(knitr)
 ```
 
 ### Loading and preprocessing the data

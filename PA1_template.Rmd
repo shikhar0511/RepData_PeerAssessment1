@@ -29,6 +29,7 @@ The dataset is stored in a comma-separated-value (CSV) file and there are a tota
     library(seqinr)
     library(data.table)
     library(timeDate)
+    library(knitr)
 ```
 
 ### Loading and preprocessing the data
@@ -170,7 +171,7 @@ data[,Weekday_or_not:=w]
 
 2) Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). 
 
-```{r Weekday_Weeked_Plot,echo=TRUE,result="hide"}
+```{r Weekday_Weeked_Plot,echo=TRUE,result="hide",fig.height=8}
 data <- transform(data,Weekday_or_not=factor(data$Weekday_or_not))
 factored_data <- transform(data,interval=factor(interval))
 split_data <- split(data,data$Weekday_or_not)
